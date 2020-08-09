@@ -1,0 +1,33 @@
+@import "./colors";
+@import "./animations";
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.spinner {
+    $spinner-size: 15px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$spinner-size / 2;
+    margin-left: -$spinner-size / 2;
+
+    width: $spinner-size;
+    height: $spinner-size;
+    border: 3px solid $theme-primaryLighter;
+    border-top-color: $theme-accent;
+    border-radius: 50%;
+    animation: rotate linear infinite 1s;
+}

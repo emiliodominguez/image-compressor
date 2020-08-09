@@ -1,31 +1,26 @@
-import React, { useRef, useCallback } from "react";
-import useEventListener from "../../hooks/useEventListener";
-import "./FileInput.module.scss";
+import React from "react";
+import { imageIcon } from "../../constants/icons";
+import styles from "./FileInput.module.scss";
 
-const FileInput = ({ images, setImages }) => {
-    const fileInput = useRef();
+const FileInput = ({ noImages, setImages }) => (
+    <div className={styles.fileInput}>
+        {noImages && imageIcon}
 
-    const handleInputChange = useCallback(
-        ({ target }) => {
-            [...target.files].forEach(file => {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onloadend = () => {
-                    setImages(fileReader.result, file);
-                    target.value = null;
-                };
-            });
-        },
-        [setImages]
-    );
+        <p>
+            Click here to browse <b>images</b>
+            <small>Drag and Drop coming soon</small>
+        </p>
 
-    useEventListener("change", handleInputChange, fileInput.current);
-
-    return (
-        <div>
-            <input ref={fileInput} type="file" accept="image/*" multiple />
-        </div>
-    );
-};
+        <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={({ target }) => {
+                setImages([...target.files]);
+                target.value = null;
+            }}
+        />
+    </div>
+);
 
 export default FileInput;
