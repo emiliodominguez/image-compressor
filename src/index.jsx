@@ -5,4 +5,4 @@ import Main from "./components/Main";
 import "./index.scss";
 
 ReactDOM.render(<Main />, document.getElementById("root"));
-serviceWorker.unregister();
+serviceWorker.register();
