@@ -1,8 +1,8 @@
 import React, { useRef, useCallback } from "react";
 import useEventListener from "../../hooks/useEventListener";
-import styles from "./FileInput.module.scss";
+import "./FileInput.module.scss";
 
-const FileInput = ({ setImages }) => {
+const FileInput = ({ images, setImages }) => {
     const fileInput = useRef();
 
     const handleInputChange = useCallback(
@@ -10,7 +10,10 @@ const FileInput = ({ setImages }) => {
             [...target.files].forEach(file => {
                 const fileReader = new FileReader();
                 fileReader.readAsDataURL(file);
-                fileReader.onloadend = () => setImages(fileReader.result, file);
+                fileReader.onloadend = () => {
+                    setImages(fileReader.result, file);
+                    target.value = null;
+                };
             });
         },
         [setImages]

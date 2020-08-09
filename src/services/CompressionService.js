@@ -12,7 +12,7 @@ class AppImageCompressionService {
      * @param {string} type    - The image type
      * @param {number} quality - The quality of the compression
      */
-    compress = (src, type, quality = 0.5) => {
+    compress = (src, type, quality) => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const img = document.createElement("img");
