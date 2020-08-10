@@ -3,9 +3,8 @@
 .fileInput {
     position: relative;
     width: 400px;
-    min-height: 150px;
     background-color: #fff;
-    border: 2px dashed $theme-primaryLighter;
+    border: 1px dashed $theme-primaryLighter;
     border-radius: 10px;
     padding: 15px;
     transition: background-color ease 250ms;
@@ -15,8 +14,10 @@
     justify-content: center;
     align-items: center;
 
+    &.isActive,
     &:hover {
         background-color: $theme-primaryLighter;
+        border-color: #fff;
 
         p {
             &,
@@ -51,25 +52,19 @@
     }
 
     p {
-        font-size: 25px;
+        font-size: 20px;
+        font-weight: 200;
         text-align: center;
         line-height: 1.5;
 
         &,
-        b,
-        small {
+        b {
             transition: color ease 250ms;
         }
 
         b {
             font-weight: 600;
             color: $theme-accentAlt;
-        }
-
-        small {
-            display: block;
-            font-size: 15px;
-            color: #888;
         }
     }
 
