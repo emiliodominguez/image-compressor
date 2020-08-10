@@ -25,12 +25,31 @@
             -webkit-appearance: none;
             z-index: 1;
 
+            &:focus,
+            &:hover {
+                &::-webkit-slider-thumb {
+                    background-image: linear-gradient(
+                        90deg,
+                        $theme-accentAlt,
+                        darken($theme-accentAlt, 15%)
+                    );
+                }
+
+                &::-moz-range-thumb {
+                    background-image: linear-gradient(
+                        90deg,
+                        $theme-accentAlt,
+                        darken($theme-accentAlt, 15%)
+                    );
+                }
+            }
+
             &::-webkit-slider-thumb {
                 appearance: none;
                 -webkit-appearance: none;
                 width: $thumb-size;
                 height: $thumb-size;
-                background-color: $theme-accent;
+                background-image: linear-gradient(90deg, $theme-accent, darken($theme-accent, 15%));
                 border-radius: 50%;
                 cursor: pointer;
             }
@@ -38,7 +57,7 @@
             &::-moz-range-thumb {
                 width: $thumb-size;
                 height: $thumb-size;
-                background-color: $theme-accent;
+                background-image: linear-gradient(90deg, $theme-accent, darken($theme-accent, 15%));
                 border-radius: 50%;
                 cursor: pointer;
             }

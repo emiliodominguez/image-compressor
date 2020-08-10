@@ -38,12 +38,18 @@ const FileInput = ({ noImages, setImages }) => {
         if (state === stylesState.remove) parentElement.classList.remove(styles.isActive);
     };
 
+    const handleInputTrigger = ({ key }) => {
+        if (key === "Enter" || key === " ") {
+            input.current.click();
+        }
+    };
+
     useEventListener("dragover", e => toggleInputStyles(e, stylesState.add), input.current);
     useEventListener("dragleave", e => toggleInputStyles(e, stylesState.remove), input.current);
     useEventListener("drop", e => toggleInputStyles(e, stylesState.remove, true), input.current);
 
     return (
-        <div className={styles.fileInput}>
+        <button className={styles.fileInput} onKeyPress={handleInputTrigger}>
             {noImages && imageIcon}
 
             <p>
@@ -57,7 +63,7 @@ const FileInput = ({ noImages, setImages }) => {
                 multiple
                 onChange={handleInputChange}
             />
-        </div>
+        </button>
     );
 };
 

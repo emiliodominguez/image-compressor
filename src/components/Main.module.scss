@@ -35,11 +35,14 @@
         letter-spacing: 0.5px;
         background-color: $theme-accentAlt;
         border: none;
+        outline: none;
+        border-radius: 5px;
         padding: 5px 10px;
         color: #fff;
         transition: background-color ease 250ms;
         cursor: pointer;
 
+        &:focus,
         &:hover {
             background-color: darken($theme-accentAlt, 10%);
         }

@@ -61,17 +61,19 @@ table {
             left: 0;
             width: 100%;
             height: 100%;
+            outline: none;
 
             display: flex;
             justify-content: center;
             align-items: center;
 
+            &:focus,
             &:hover {
                 svg {
                     animation: bounce ease 750ms;
 
                     path {
-                        fill: #fff;
+                        fill: $theme-accent;
                     }
                 }
             }
@@ -82,7 +84,7 @@ table {
             height: 12px;
 
             path {
-                fill: lighten($theme-primaryLighter, 45%);
+                fill: #fff;
                 transition: fill ease 250ms;
             }
         }
