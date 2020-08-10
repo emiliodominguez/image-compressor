@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
-import useEventListener from "../../hooks/useEventListener";
 import { imageIcon } from "../../constants/icons";
 import styles from "./FileInput.module.scss";
 
 const SUPPORTED_TYPES = [
-    // "image/gif",
     "image/apng",
     "image/bmp",
     "image/jpeg",
@@ -12,12 +10,12 @@ const SUPPORTED_TYPES = [
     "image/pjpeg",
     "image/png",
     "image/tiff",
-    "image/webp"
+    "image/webp",
 ];
 
 const stylesState = {
     add: "ADD",
-    remove: "REMOVE"
+    remove: "REMOVE",
 };
 
 const FileInput = ({ noImages, setImages }) => {
@@ -39,14 +37,8 @@ const FileInput = ({ noImages, setImages }) => {
     };
 
     const handleInputTrigger = ({ key }) => {
-        if (key === "Enter" || key === " ") {
-            input.current.click();
-        }
+        if (key === "Enter" || key === " ") input.current.click();
     };
-
-    useEventListener("dragover", e => toggleInputStyles(e, stylesState.add), input.current);
-    useEventListener("dragleave", e => toggleInputStyles(e, stylesState.remove), input.current);
-    useEventListener("drop", e => toggleInputStyles(e, stylesState.remove, true), input.current);
 
     return (
         <button className={styles.fileInput} onKeyPress={handleInputTrigger}>
@@ -59,9 +51,12 @@ const FileInput = ({ noImages, setImages }) => {
             <input
                 ref={input}
                 type="file"
-                accept={SUPPORTED_TYPES.join(",")}
+                accept={SUPPORTED_TYPES.join(", ")}
                 multiple
                 onChange={handleInputChange}
+                onDragOver={e => toggleInputStyles(e, stylesState.add)}
+                onDragLeave={e => toggleInputStyles(e, stylesState.remove)}
+                onDrop={e => toggleInputStyles(e, stylesState.remove, true)}
             />
         </button>
     );
