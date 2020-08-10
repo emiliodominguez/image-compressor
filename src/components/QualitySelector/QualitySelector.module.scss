@@ -2,92 +2,60 @@
 @import "../../styles/animations";
 
 .qualitySelector {
+    position: relative;
     width: 100%;
     color: #fff;
-    margin-bottom: 25px;
-    flex-direction: column;
 
-    &,
-    .inputWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    label {
-        font-weight: 600;
-    }
+.warningTooltip {
+    position: absolute;
+    bottom: 0;
+    left: calc(100% + 10px);
+    animation: reveal ease forwards 250ms;
 
-    .inputWrapper {
-        position: relative;
-        margin: 20px auto 10px;
-    }
-
-    input {
-        $thumb-size: 20px;
-        $output-position: 60px;
-
-        width: 250px - $output-position;
-        height: 5px;
-        background-color: #fff;
+    button {
+        background-color: transparent;
+        border: none;
         outline: none;
-        -webkit-appearance: none;
-        margin-left: -$output-position;
-        z-index: 1;
+        cursor: help;
 
-        &::-webkit-slider-thumb {
-            appearance: none;
-            -webkit-appearance: none;
-            width: $thumb-size;
-            height: $thumb-size;
-            background-color: $theme-accent;
-            border-radius: 50%;
-            cursor: pointer;
+        &:hover {
+            + small {
+                display: block;
+            }
         }
-
-        &::-moz-range-thumb {
-            width: $thumb-size;
-            height: $thumb-size;
-            background-color: $theme-accent;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        + span {
-            position: absolute;
-            top: 50%;
-            right: -$output-position;
-            transform: translateY(-50%);
-            min-width: 40px;
-            background-color: #fff;
-            border-radius: 5px;
-            padding: 5px;
-            font-size: 15px;
-            font-weight: 800;
-            text-align: center;
-            color: $theme-accentAlt;
-        }
-    }
-
-    small {
-        position: relative;
-        font-weight: 200;
-        font-size: 11px;
-        text-align: center;
-        letter-spacing: 0.5px;
-        color: lighten($theme-primaryLighter, 50%);
-        line-height: 1.5;
-        opacity: 0;
-        animation: reveal ease forwards 250ms;
 
         svg {
             display: block;
-            height: 25px;
-            margin: 0 auto 10px;
+            height: 15px;
 
             path {
                 fill: lighten($theme-primaryLighter, 50%);
             }
         }
+    }
+
+    small {
+        $tooltip-width: 400px;
+
+        position: absolute;
+        bottom: calc(100% + 15px);
+        left: -$tooltip-width / 2;
+        min-width: $tooltip-width;
+        display: none;
+        font-size: 12px;
+        text-align: center;
+        letter-spacing: 0.5px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        color: #222;
+        line-height: 1.5;
+        opacity: 0;
+        animation: reveal ease forwards 250ms;
     }
 }

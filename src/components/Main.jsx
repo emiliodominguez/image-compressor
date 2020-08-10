@@ -5,15 +5,23 @@ import FileInput from "./FileInput/FileInput";
 import QualitySelector from "./QualitySelector";
 import ImagesList from "./ImagesList";
 import styles from "./Main.module.scss";
+import ScaleSelector from "./ScaleSelector";
+
+const INITIAL_STATE = {
+    compressedImages: [],
+    quality: 0.5,
+    scale: 1
+};
 
 class Main extends Component {
-    state = {
-        compressedImages: [],
-        quality: 0.5,
+    state = INITIAL_STATE;
+
+    resetApp = () => {
+        this.setState(INITIAL_STATE);
     };
 
     setImages = images => {
-        const { quality } = this.state;
+        const { quality, scale } = this.state;
         const { compress } = ImageCompressionService;
 
         images.forEach(image => {
@@ -23,7 +31,8 @@ class Main extends Component {
                 const { compressedImage, compressedSize } = await compress(
                     fileReader.result,
                     image.type,
-                    quality
+                    quality,
+                    scale
                 );
 
                 this.setState(prevState => ({
@@ -34,21 +43,22 @@ class Main extends Component {
                             name: image.name,
                             type: image.type,
                             size: convertBytesToMb(image.size),
-                            compressedSize,
-                        },
-                    ],
+                            compressedSize
+                        }
+                    ]
                 }));
             };
         });
     };
 
     setQuality = value => {
-        let quality = parseFloat(value);
-
-        if (quality > 1) quality = 1;
-        else if (quality < 0) quality = 0;
-
+        let quality = this.checkRanges(value, 0, 1);
         this.setState({ quality });
+    };
+
+    setScale = value => {
+        let scale = this.checkRanges(value, 0.1, 1);
+        this.setState({ scale });
     };
 
     downloadAllImages = () => {
@@ -68,26 +78,34 @@ class Main extends Component {
         }
     };
 
-    resetApp = () => {
-        this.setState({
-            compressedImages: [],
-            quality: 0.5,
-        });
+    checkRanges = (value, min, max) => {
+        switch (value) {
+            case value > max:
+                return max;
+            case value < min:
+                return min;
+            default:
+                return parseFloat(value);
+        }
     };
 
     render() {
-        const { compressedImages, quality } = this.state;
+        const { compressedImages, quality, scale } = this.state;
 
         return (
             <div className={styles.mainWrapper}>
-                <QualitySelector quality={quality} setQuality={this.setQuality} />
+                <div className={styles.inputsControlGroup}>
+                    <QualitySelector quality={quality} setQuality={this.setQuality} />
+                    <ScaleSelector scale={scale} setScale={this.setScale} />
+                </div>
+
                 <FileInput noImages={compressedImages.length === 0} setImages={this.setImages} />
 
                 {compressedImages.length > 0 && (
                     <>
                         <ImagesList images={compressedImages} quality={quality} />
 
-                        <div className={styles.actionsWrapper}>
+                        <div className={styles.actionsControlGroup}>
                             <button onClick={this.downloadAllImages}>Download all</button>
                             <button onClick={this.resetApp}>Reset</button>
                         </div>

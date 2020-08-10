@@ -12,7 +12,7 @@ class AppImageCompressionService {
      * @param {string} type    - The image type
      * @param {number} quality - The quality of the compression
      */
-    compress = (src, type, quality) => {
+    compress = (src, type, quality, scale = 1) => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const img = document.createElement("img");
@@ -21,8 +21,8 @@ class AppImageCompressionService {
 
         return new Promise((resolve, reject) => {
             img.onload = () => {
-                const width = img.width;
-                const height = img.height;
+                const width = img.width * scale;
+                const height = img.height * scale;
 
                 canvas.width = width;
                 canvas.height = height;
@@ -34,7 +34,7 @@ class AppImageCompressionService {
 
                 resolve({
                     compressedImage: base64String,
-                    compressedSize: getCompressedImageSize(base64String),
+                    compressedSize: getCompressedImageSize(base64String)
                 });
             };
 

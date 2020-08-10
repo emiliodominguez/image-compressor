@@ -1,0 +1,59 @@
+@import "../../../styles/colors";
+
+.inputRange {
+    width: 200px;
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .inputRangeControlGroup {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        input {
+            $thumb-size: 20px;
+
+            width: 100%;
+            height: 5px;
+            background-color: #fff;
+            outline: none;
+            -webkit-appearance: none;
+            z-index: 1;
+
+            &::-webkit-slider-thumb {
+                appearance: none;
+                -webkit-appearance: none;
+                width: $thumb-size;
+                height: $thumb-size;
+                background-color: $theme-accent;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            &::-moz-range-thumb {
+                width: $thumb-size;
+                height: $thumb-size;
+                background-color: $theme-accent;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            + span {
+                min-width: 40px;
+                background-color: #fff;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 15px;
+                font-weight: 800;
+                text-align: center;
+                margin-left: 15px;
+                color: $theme-accentAlt;
+            }
+        }
+    }
+}
