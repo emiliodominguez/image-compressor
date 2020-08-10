@@ -10,7 +10,7 @@ import ScaleSelector from "./ScaleSelector";
 const INITIAL_STATE = {
     compressedImages: [],
     quality: 0.5,
-    scale: 1
+    scale: 1,
 };
 
 class Main extends Component {
@@ -43,9 +43,9 @@ class Main extends Component {
                             name: image.name,
                             type: image.type,
                             size: convertBytesToMb(image.size),
-                            compressedSize
-                        }
-                    ]
+                            compressedSize,
+                        },
+                    ],
                 }));
             };
         });
@@ -69,7 +69,9 @@ class Main extends Component {
         let images = [];
         let link = document.createElement("a");
 
-        compressedImages.forEach(({ src, name }) => images.push({ name, src }));
+        compressedImages.forEach(({ src, name, size, compressedSize }) => {
+            if (compressedSize < size) images.push({ name, src });
+        });
 
         for (let { name, src } of images) {
             link.setAttribute("download", name);

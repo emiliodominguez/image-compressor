@@ -17,7 +17,7 @@ const QualitySelector = ({ quality, setQuality }) => (
 
         {quality < 0.5 && (
             <div className={styles.warningTooltip}>
-                <button tabIndex="-1">{warningIcon}</button>
+                <button tabIndex={-1}>{warningIcon}</button>
 
                 <small>
                     You may get unexpected results from a value below <b>0.5</b>.

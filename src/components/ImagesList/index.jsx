@@ -17,33 +17,43 @@ const ImagesList = ({ images }) => (
         </thead>
 
         <tbody>
-            {images.map((image, i) => (
-                <tr key={i}>
-                    <td>
-                        <ImageItem src={image.src} name={image.name} />
-                    </td>
+            {images.map(({ src, name, size, compressedSize }, i) => {
+                const wasCompressed = compressedSize < size;
 
-                    <td>
-                        <p title={image.name}>{image.name}</p>
-                    </td>
+                return (
+                    <tr key={i}>
+                        <td>
+                            <ImageItem {...{ src, name }} />
+                        </td>
 
-                    <td className={styles.size}>{`${image.size} mb`}</td>
+                        <td>
+                            <p title={name}>{name}</p>
+                        </td>
 
-                    <td className={[styles.size, styles.compressed].join(" ")}>
-                        {`${image.compressedSize} mb`}
-                    </td>
+                        <td className={styles.size}>
+                            {`${size} mb`}
+                        </td>
 
-                    <td className={[styles.size, styles.diff].join(" ")}>
-                        {`${(image.size - image.compressedSize).toFixed(2)} mb`}
-                    </td>
+                        {wasCompressed && (
+                            <>
+                                <td className={[ styles.size, wasCompressed ? styles.compressed : "" ].join(" ")}>
+                                    {`${compressedSize} mb`}
+                                </td>
 
-                    <td>
-                        <a href={image.src} download={image.name} title="Download">
-                            {downloadIcon}
-                        </a>
-                    </td>
-                </tr>
-            ))}
+                                <td className={[styles.size, wasCompressed ? styles.diff : ""].join(" ")}>
+                                    {`${(size - compressedSize).toFixed(2)} mb`}
+                                </td>
+
+                                <td>
+                                    <a href={src} download={name} title="Download">{downloadIcon}</a>
+                                </td>
+                            </>
+                        )}
+
+                        {!wasCompressed && <td colSpan={3}>The image wasn't compressed...</td>}
+                    </tr>
+                );
+            })}
         </tbody>
     </table>
 );
