@@ -10,7 +10,7 @@ import ScaleSelector from "./ScaleSelector";
 const INITIAL_STATE = {
     compressedImages: [],
     quality: 0.5,
-    scale: 1,
+    scale: 1
 };
 
 class Main extends Component {
@@ -28,12 +28,8 @@ class Main extends Component {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(image);
             fileReader.onloadend = async () => {
-                const { compressedImage, compressedSize } = await compress(
-                    fileReader.result,
-                    image.type,
-                    quality,
-                    scale
-                );
+                const compression = await compress(fileReader.result, image.type, quality, scale);
+                const { compressedImage, compressedSize } = compression;
 
                 this.setState(prevState => ({
                     compressedImages: [
@@ -43,9 +39,9 @@ class Main extends Component {
                             name: image.name,
                             type: image.type,
                             size: convertBytesToMb(image.size),
-                            compressedSize,
-                        },
-                    ],
+                            compressedSize
+                        }
+                    ]
                 }));
             };
         });
@@ -105,7 +101,7 @@ class Main extends Component {
 
                 {compressedImages.length > 0 && (
                     <>
-                        <ImagesList images={compressedImages} quality={quality} />
+                        <ImagesList images={compressedImages} />
 
                         <div className={styles.actionsControlGroup}>
                             <button onClick={this.downloadAllImages}>Download all</button>
