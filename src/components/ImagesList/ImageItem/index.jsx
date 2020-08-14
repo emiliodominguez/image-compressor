@@ -8,7 +8,7 @@ const ImageItem = ({ src, name }) => {
         <div className={[styles.image, imageLoaded ? styles.imageLoaded : ""].join(" ")}>
             {!imageLoaded && <div className="spinner" />}
             <img src={src} alt={name} onLoad={() => toggleImageLoaded(true)} />
-            <img className={styles.preview} src={src} alt={name} />
+            {imageLoaded && <img className={styles.preview} src={src} alt={name} />}
         </div>
     );
 };
