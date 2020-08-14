@@ -21,15 +21,33 @@ class Main extends Component {
     };
 
     setImages = images => {
+        images.forEach(image => this.compressImage(image));
+    };
+
+    setQuality = value => {
+        let quality = this.checkRanges(value, 0, 1);
+        this.setState({ quality });
+    };
+
+    setScale = value => {
+        let scale = this.checkRanges(value, 0.1, 1);
+        this.setState({ scale });
+    };
+
+    compressImage = image => {
         const { quality, scale } = this.state;
         const { compress } = ImageCompressionService;
 
-        images.forEach(image => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(image);
-            fileReader.onloadend = async () => {
-                const compression = await compress(fileReader.result, image.type, quality, scale);
-                const { compressedImage, compressedSize } = compression;
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(image);
+        fileReader.onloadend = async () => {
+            const isGif = image.type.split("/")[1] === "gif";
+
+            if (isGif) {
+                alert("GIF unsupported 🤷‍♂️");
+            } else {
+                const params = [fileReader.result, image.type, quality, scale];
+                const { compressedImage, compressedSize } = await compress(...params);
 
                 this.setState(prevState => ({
                     compressedImages: [
@@ -43,18 +61,8 @@ class Main extends Component {
                         }
                     ]
                 }));
-            };
-        });
-    };
-
-    setQuality = value => {
-        let quality = this.checkRanges(value, 0, 1);
-        this.setState({ quality });
-    };
-
-    setScale = value => {
-        let scale = this.checkRanges(value, 0.1, 1);
-        this.setState({ scale });
+            }
+        };
     };
 
     downloadAllImages = () => {
